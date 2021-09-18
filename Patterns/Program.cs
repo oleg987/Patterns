@@ -7,22 +7,23 @@ namespace Patterns
     {
         static void Main(string[] args)
         {
-            var p = new Penguin();
-            var e = new Eagle();
-            var o = new Ostrich();
+            Builder.CarBuilder builder = new Builder.CarBuilder();
 
-            p.Move();
-            e.Move();
-            o.Move();
+            Builder.Car car = builder
+                .SetEngine(new Builder.Engine())
+                .SetPrice(15000)
+                .Build();
 
-            List<Bird> birds = new List<Bird> { p, e, o };
+            Builder.Director dir = new Builder.Director();
 
-            foreach (var item in birds)
-            {
-                item.Move();
-            }
+            var tuple = dir.SetEngine(new Builder.Engine()).Build();
 
-            Console.WriteLine(p);
+            Console.WriteLine(tuple.Item1);
+            Console.WriteLine(tuple.Item2);
+
+            var decorator = new Decorator.CapitalDecorator(new Decorator.AlarmDecorator(new Decorator.ConsolePrinter()));
+
+            decorator.Print("Hello");
         }
     }
 }
